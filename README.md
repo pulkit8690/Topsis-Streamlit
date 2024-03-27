@@ -61,5 +61,5 @@ Enter csv filename followed by .csv extentsion, then enter the weights vector wi
 This repository is licensed under MIT License. See LICENSE for details.
 ## Web App Screenshots
 
-![Image Alt Text](![image](https://github.com/pulkit8690/Topsis-Streamlit/assets/103959073/5e4e7ac0-ee39-4e6d-a86c-d5a5e8f52471)
+![Image Alt Text](Web app screenshot.png)
 )
