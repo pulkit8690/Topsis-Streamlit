@@ -59,7 +59,5 @@ Enter csv filename followed by .csv extentsion, then enter the weights vector wi
 © 2024 Pulkit Arora
 
 This repository is licensed under MIT License. See LICENSE for details.
-## Web App Screenshots
 
-![GitHub Logo]("Web app screenshot.png")
 
