@@ -61,5 +61,5 @@ Enter csv filename followed by .csv extentsion, then enter the weights vector wi
 This repository is licensed under MIT License. See LICENSE for details.
 ## Web App Screenshots
 
-![GitHub Logo](https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png "GitHub Logo Tooltip")
+![GitHub Logo]("Web app screenshot.png")
 
