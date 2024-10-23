@@ -12,10 +12,6 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
-# import dotenv
-
-# # Load environment variables from dot.env file
-# dotenv.load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'supersecretkey')
@@ -84,7 +80,7 @@ def calculate_custom_score(data, weights, impacts):
 def send_email(data, weights, impacts, recipient_email):
     # Email configuration
     sender_email = '2003pulkit@gmail.com'  # Update with your email address
-    password = 'yhme lbzn zpgw fppo'  # Ensure this is set to your App Password
+    password = ''  # Ensure this is set to your App Password
     subject = 'TOPSIS Result'
 
     # Create message container
