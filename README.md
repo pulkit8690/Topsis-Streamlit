@@ -1,7 +1,6 @@
 
 # Topsis Library and Web App
 
-Web app Link [topsis web app](https://pulkit-topsis-web-app.streamlit.app/)
 
 Package link [topsis package](https://pypi.org/project/topsis-pulkit-102103267/)
 
