@@ -6,7 +6,7 @@ import plotly.express as px
 import plotly.io as pio
 import smtplib
 from flask import Flask, render_template, request, redirect, url_for, flash, send_file, session
-from flask_mail import Mail, Message
+# from flask_mail import Mail, Message
 from werkzeug.utils import secure_filename
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
