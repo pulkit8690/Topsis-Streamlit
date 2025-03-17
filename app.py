@@ -11,10 +11,10 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
-
+from dotenv import load_dotenv
+load_dotenv()
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'supersecretkey')
-
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'csv', 'xlsx'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -79,9 +79,10 @@ def send_email(data, recipient_email):
     if not recipient_email:  # Skip sending email if no email is provided
         return
 
-    sender_email = '2003pulkit@gmail.com'  # Update with your email address
-    password = ''  # Ensure this is set to your App Password
-    subject = 'TOPSIS Result'
+    # Access the variables
+    sender_email = os.getenv("SENDER_EMAIL")
+    password = os.getenv("EMAIL_PASSWORD")
+    subject = os.getenv("EMAIL_SUBJECT")
 
     # Create message container
     msg = MIMEMultipart()
