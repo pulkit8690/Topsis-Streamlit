@@ -4,101 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TOPSIS Analysis Tool</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        
         body {
-            background: linear-gradient(to right, #6a11cb, #2575fc);
-            color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
         }
-        .container {
-            max-width: 600px;
-            margin-top: 50px;
-        }
-        .card {
-            background-color: #ffffff;
-            border-radius: 15px;
-            padding: 20px;
-            color: #333;
-        }
-        .form-label {
-            font-weight: bold;
-        }
-        .btn-primary {
-            background: #ff5c97;
-            border: none;
-        }
-        .btn-primary:hover {
-            background: #ff3366;
-        }
-        .loading-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        .loading-overlay.active {
-            display: flex;
+        
+        .hero-section {
+            min-height: 90vh;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1 class="text-center mb-4">TOPSIS Analysis Tool</h1>
-        
-        <!-- Display Flash Messages -->
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                {{ messages[0] }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-          {% endif %}
-        {% endwith %}
-        
-        <div class="card shadow-lg p-4">
-            <form method="POST" action="/submit" enctype="multipart/form-data" id="topsisForm">
-                <!-- File Upload Section -->
-                <div class="mb-4">
-                    <label for="file" class="form-label">Upload CSV/XLSX File <i class="fas fa-question-circle" data-bs-toggle="tooltip" title="Upload a CSV or XLSX file containing your dataset. Ensure the file is properly formatted."></i></label>
-                    <input class="form-control" type="file" id="file" name="file" required>
-                    <div class="form-text text-muted">Supported format: CSV/XLSX (max size: 200MB).</div>
+    <div class="bg-gradient-to-r from-blue-50 to-indigo-50">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-xl font-bold text-indigo-700">
+                    <i class="fas fa-chart-line mr-2"></i>TOPSIS Tool
                 </div>
-                
-                <!-- Submit Button -->
-                <button type="submit" class="btn btn-primary w-100">Upload Dataset</button>
-            </form>
+            </div>
+        </nav>
+        
+        <div class="container mx-auto px-6 hero-section flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 flex flex-col justify-center items-start">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-800 leading-tight mb-4">
+                    Make Better Decisions with TOPSIS
+                </h1>
+                <p class="text-lg text-gray-600 mb-8">
+                    TOPSIS (Technique for Order of Preference by Similarity to Ideal Solution) is a multi-criteria decision-making method that helps you evaluate alternatives based on multiple criteria.
+                </p>
+                <a href="{{ url_for('login_signup') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105 flex items-center">
+                    <span>Get Started</span>
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+            <div class="md:w-1/2 mt-10 md:mt-0 flex justify-center">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80" alt="Data Science" class="w-full max-w-md rounded-lg shadow-xl">
+            </div>
         </div>
     </div>
-
-    <!-- Loading Overlay -->
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="spinner-border text-light" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Enable Bootstrap tooltips
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        });
-
-        // Handle form submission with loading overlay
-        const topsisForm = document.getElementById('topsisForm');
-        const loadingOverlay = document.getElementById('loadingOverlay');
-
-        topsisForm.addEventListener('submit', function () {
-            loadingOverlay.classList.add('active');
-        });
-    </script>
 </body>
 </html>

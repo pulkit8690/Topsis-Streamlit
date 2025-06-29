@@ -12,12 +12,108 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 from dotenv import load_dotenv
+from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
+import random
+
+
 load_dotenv()
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'supersecretkey')
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'csv', 'xlsx'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://db_user:db_pass@localhost:5432/db_name'
+db = SQLAlchemy(app)
+
+# Define models
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password_hash = db.Column(db.String(200), nullable=False)
+    otp = db.Column(db.String(6), nullable=True)
+    otp_valid = db.Column(db.Boolean, default=False)
+
+class History(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    dataset_info = db.Column(db.Text, nullable=True)
+    result = db.Column(db.Text, nullable=True)
+
+# Create tables once in a separate script or in main()
+# db.create_all()
+
+@app.route('/signup', methods=['GET','POST'])
+def signup():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        if User.query.filter_by(email=email).first():
+            flash("Email already in use.")
+            return redirect(url_for('signup'))
+        user = User(email=email, password_hash=generate_password_hash(password))
+        db.session.add(user)
+        db.session.commit()
+        flash("Signup successful.")
+        return redirect(url_for('login'))
+    return render_template('signup.html')
+
+@app.route('/login', methods=['GET','POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        user = User.query.filter_by(email=email).first()
+        if user and check_password_hash(user.password_hash, password):
+            # Generate OTP
+            user.otp = str(random.randint(100000, 999999))
+            user.otp_valid = True
+            db.session.commit()
+            # Send OTP by email
+            send_otp_email(email, user.otp)
+            flash("OTP sent. Please verify.")
+            return redirect(url_for('verify_otp'))
+        flash("Invalid credentials.")
+    return render_template('login.html')
+
+@app.route('/verify_otp', methods=['GET','POST'])
+def verify_otp():
+    if request.method == 'POST':
+        email = request.form['email']
+        otp_submitted = request.form['otp']
+        user = User.query.filter_by(email=email).first()
+        if user and user.otp_valid and user.otp == otp_submitted:
+            user.otp_valid = False
+            db.session.commit()
+            session['user_id'] = user.id
+            flash("Login successful.")
+            return redirect(url_for('index'))
+        flash("Invalid OTP.")
+    return render_template('verify_otp.html')
+
+# Example: Storing history after processing
+def process_dataset(data):
+    # ... existing code to process dataset and get result ...
+    # Store in history if user is logged in
+    if 'user_id' in session:
+        history = History(user_id=session['user_id'],
+                          dataset_info="Sample dataset info",
+                          result=data.to_csv(index=False))
+        db.session.add(history)
+        db.session.commit()
+
+def send_otp_email(email, otp):
+    # Simple example to send OTP using smtplib
+    try:
+        server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+        server.login(os.getenv("SENDER_EMAIL"), os.getenv("EMAIL_PASSWORD"))
+        message = f"Subject: Your OTP Code\n\nYour OTP is: {otp}"
+        server.sendmail(os.getenv("SENDER_EMAIL"), email, message)
+        server.quit()
+    except Exception as e:
+        print("Error sending OTP:", str(e))
 
 # Function to validate email format
 def validate_email(email):

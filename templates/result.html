@@ -3,21 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TOPSIS Analysis Results</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+    <title>TOPSIS Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="text-center">TOPSIS Analysis Results</h1>
-        <div class="card shadow p-4 mt-4">
-            <div id="graph-container">
-                {{ graph_html | safe }}
-            </div>
+    <div class="container">
+        <h1>TOPSIS Results</h1>
+        <div class="result-graph">
+            {{ graph_html|safe }}
         </div>
-        <div class="text-center mt-4">
-            <a href="{{ csv_download_link }}" class="btn btn-primary">Download Results as CSV</a>
-        </div>
+        <a href="{{ csv_download_link }}" class="btn btn-primary">Download Results</a>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

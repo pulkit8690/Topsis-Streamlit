@@ -1,0 +1,8 @@
+Flask==2.2.2
+Flask-SQLAlchemy==2.5.1
+python-dotenv==0.20.0
+pandas==1.5.3
+numpy==1.23.5
+plotly==5.10.0
+Werkzeug==2.2.2
+smtplib==0.1.0

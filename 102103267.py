@@ -9,7 +9,7 @@ def main():
     # print("Checking for Errors...\n")
     if len(sys.argv) != 5:
         print("ERROR : NUMBER OF PARAMETERS")
-        print("USAGE : python topsis.py 102103281-data.csv '1,1,1,1,1' '+,-,+,-,+' result1.csv ")
+        print("USAGE : python topsis.py 102103267-data.csv '1,1,1,1,1' '+,-,+,-,+' result1.csv ")
         exit(1)
 
     # File Not Found error
